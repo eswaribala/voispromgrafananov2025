@@ -1,3 +1,4 @@
+#download sqlserverv1.yaml and sqlserverservice.yml deployment files
 Kubectl apply -f sqlserverv1.yaml
 kubectl apply -f sqlserverservice.yml
 #sql server client
