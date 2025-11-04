@@ -1,0 +1,2 @@
+#prometheus url
+http://host.docker.internal:9090
