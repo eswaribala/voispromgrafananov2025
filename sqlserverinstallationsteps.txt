@@ -11,5 +11,7 @@ sqlcmd -S mssql.default.svc.cluster.local,1403 -U SA -P 'Vignesh@95!' -Q "create
 sqlcmd -S mssql.default.svc.cluster.local,1403 -U SA -P 'Vignesh@95!' -d traderdb -Q "create table trader(id INT primary key, name varchar(100));"
 #insert data
 sqlcmd -S mssql.default.svc.cluster.local,1403 -U SA -P 'Vignesh@95!' -d traderdb -Q "insert into trader(id,name) values(100,'trader1');"
+sqlcmd -S mssql.default.svc.cluster.local,1403 -U SA -P 'Vignesh@95!' -d traderdb -Q "insert into trader(id,name) values(101,'trader2');"
+sqlcmd -S mssql.default.svc.cluster.local,1403 -U SA -P 'Vignesh@95!' -d traderdb -Q "insert into trader(id,name) values(102,'trader3');"
 #Show data
 sqlcmd -S mssql.default.svc.cluster.local,1403 -U SA -P 'Vignesh@95!' -d traderdb -Q "select * from trader"
