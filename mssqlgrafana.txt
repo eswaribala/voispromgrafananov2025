@@ -1,0 +1,1 @@
+select * FROM traderdb.dbo.trader WHERE id = ${id:singlequote};
