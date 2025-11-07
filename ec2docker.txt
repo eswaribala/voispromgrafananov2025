@@ -1,0 +1,8 @@
+1. sudo apt update
+#install docker
+sudo apt install docker.io -y
+#enable the docker service
+sudo systemctl enable docker
+sudo systemctl start docker
+#check version
+docker -v
