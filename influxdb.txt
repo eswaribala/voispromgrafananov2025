@@ -1,0 +1,17 @@
+helm repo add influxdata https://helm.influxdata.com
+helm repo update
+
+#install influxdb
+
+helm install influxdb influxdata/influxdb2 --set adminuser.enabled=true --set adminuser.user=admin --set adminuser.password=admin123 --set adminuser.org=rps --set adminuser.bucket=training --set adminuser.token=mysecret  --set service.type=LoadBalancer  --set service.port=8086 
+#expose to port no 8086
+#kubectl port-forward  svc/influxdb-influxdb2 8086:80
+#get the password using bashscript
+kubectl get secret influxdb-influxdb2-auth -o "jsonpath={.data['admin-password']}" | base64 --decode
+#access db from browser
+http://localhost:8086
+
+#to find out dns name
+kubectl exec -it <podname> -- /bin/sh
+#nslookup <influx service name>
+#exit
