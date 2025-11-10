@@ -4,6 +4,11 @@ from(bucket: "training")
     |> range(start: -15m)
     |> filter(fn: (r) => r._measurement == "cpu" and r._field == "usage_system" and r.cpu == "cpu-total")
 ==============================
+from(bucket: "training")
+    |> range(start: -1h)
+    |> filter(fn: (r) => r._measurement == "cpu" and r._field == "usage_system" and r.cpu == "cpu-total")
+    |> window(every: 5m)
+============================================
 
 // Data source
 from(bucket: "training")
