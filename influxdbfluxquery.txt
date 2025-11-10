@@ -1,5 +1,10 @@
 option task = {name: "test", every: 1m}
 
+from(bucket: "training")
+    |> range(start: -15m)
+    |> filter(fn: (r) => r._measurement == "cpu" and r._field == "usage_system" and r.cpu == "cpu-total")
+==============================
+
 // Data source
 from(bucket: "training")
     |> range(start: -30m)
