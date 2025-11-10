@@ -1,0 +1,6 @@
+#go to jaeger folder
+# run the following
+docker-compose up -d
+
+#browse to
+http://localhost:16686
