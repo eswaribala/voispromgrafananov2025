@@ -9,6 +9,15 @@ from(bucket: "training")
     |> filter(fn: (r) => r._measurement == "cpu" and r._field == "usage_system" and r.cpu == "cpu-total")
     |> window(every: 5m)
 ============================================
+from(bucket: "training")
+  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+  |> filter(fn: (r) => r["_measurement"] == "disk")
+  |> filter(fn: (r) => r["device"] == "sdc")
+  |> filter(fn: (r) => r["host"] == "telegraf-polling-service")
+  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)
+  |> yield(name: "mean")
+
+===========================================
 
 // Data source
 from(bucket: "training")
