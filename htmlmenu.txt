@@ -1,0 +1,25 @@
+<h1>VOIS Menu</h1>
+<div class="row equal">
+<div class="box" style="background-color:red;width:25%;height:100px;color:white">
+<a href="#">Customer Dashbord
+
+</a>
+</div>
+<div class="box" style="background-color:green;width:25%;height:100px;color:white">
+<a href="http://localhost:3000/goto/PjIpRA3Ng?orgId=1">Customer API Dashbord
+
+</a>
+</div>
+</div>
+<div class="row equal">
+<div class="box" style="background-color:blue;width:25%;height:100px;color:white">
+<a href="#">JSON API Dashbord
+
+</a>
+</div>
+<div class="box" style="background-color:yellow;width:25%;height:100px;color:white">
+<a href="#">Postgres Dashbord
+
+</a>
+</div>
+</div>
