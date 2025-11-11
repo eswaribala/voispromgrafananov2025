@@ -6,3 +6,5 @@ sudo systemctl enable docker
 sudo systemctl start docker
 #check version
 docker -v
+#add application
+docker run -it --name=mongo-c1 -p 27017:27017 -d mongo
