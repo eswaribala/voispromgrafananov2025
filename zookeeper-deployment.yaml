@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: zookeeper
-        image: bitnami/zookeeper:latest
+        image: zookeeper:latest
         ports:
         - containerPort: 2181
         env:
@@ -34,3 +34,4 @@ spec:
   selector:
     app: zookeeper
   clusterIP: None
+
