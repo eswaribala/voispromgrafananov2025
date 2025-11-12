@@ -1,3 +1,3 @@
 helm repo update
 helm uninstall kafka-exp
-helm install kafka-exp prometheus-community/prometheus-kafka-exporter --set kafkaserver="{kafka:9092}"
+helm install kafka-exp prometheus-community/prometheus-kafka-exporter
