@@ -1,0 +1,57 @@
+1) Dashboard snapshot JSON → S3 (via Grafana HTTP API)
+
+This captures a read-only “point-in-time” copy of a dashboard (not your whole Grafana).
+
+Prereqs
+
+Grafana API token with at least Editor (Admin recommended for convenience)
+
+AWS CLI configured with access to s3://your-bucket
+
+Know the dashboard UID (from the URL /d/<UID>/...)
+
+One-off example
+
+GRAFANA_URL="http://<grafana-host>:3000"
+API_TOKEN="<grafana_api_token>"
+DASH_UID="<dashboard_uid>"
+BUCKET="s3://my-backups/grafana/snapshots"
+TS=$(date -u +%Y%m%dT%H%M%SZ)
+
+# 1) Get the dashboard model
+curl -s \
+  -H "Authorization: Bearer $API_TOKEN" \
+  "$GRAFANA_URL/api/dashboards/uid/$DASH_UID" \
+  | jq '.dashboard' > /tmp/dashboard.json
+
+# 2) Create a Grafana snapshot (optional but nice: freezes queries)
+curl -s -X POST \
+  -H "Authorization: Bearer $API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d "{\"dashboard\": $(cat /tmp/dashboard.json), \"name\": \"${DASH_UID}-${TS}\", \"expires\": 0}" \
+  "$GRAFANA_URL/api/snapshots" > /tmp/snap_resp.json
+
+SNAP_KEY=$(jq -r '.key' /tmp/snap_resp.json)
+
+# 3) Fetch the frozen snapshot content
+curl -s "$GRAFANA_URL/api/snapshots/$SNAP_KEY" \
+  | jq '.dashboard' > "/tmp/${DASH_UID}-${TS}.snapshot.json"
+
+# 4) Push to S3
+aws s3 cp "/tmp/${DASH_UID}-${TS}.snapshot.json" "$BUCKET/"
+
+
+Cron job (daily at 02:30 IST)
+
+30 2 * * * /usr/local/bin/grafana-snapshot.sh >> /var/log/grafana-snapshot.log 2>&1
+
+
+Minimal IAM (attach to the instance/role used for aws cli)
+
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {"Effect":"Allow","Action":["s3:PutObject","s3:PutObjectAcl"],"Resource":"arn:aws:s3:::my-backups/grafana/snapshots/*"},
+    {"Effect":"Allow","Action":["s3:ListBucket"],"Resource":"arn:aws:s3:::my-backups","Condition":{"StringLike":{"s3:prefix":["grafana/snapshots/*"]}}}
+  ]
+}
