@@ -1,0 +1,22 @@
+sudo apt install postgresql-client -y
+
+psql --version
+
+
+psql -h vinsysdb.cwza0i4guo2y.us-east-1.rds.amazonaws.com -p 5432 -U postgres -d postgres "sslmode=require"
+
+to list databases
+SELECT datname
+FROM pg_database
+WHERE datistemplate = false;
+
+to  list all tables
+SELECT schema_name
+FROM information_schema.schemata;
+
+List all tables in the current database
+SELECT schemaname, tablename
+FROM pg_tables
+WHERE schemaname NOT IN ('pg_catalog', 'information_schema')
+ORDER BY schemaname, tablename;
+
